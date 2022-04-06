@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import SplashSelectSide from '@/components/SplashSelectSide.vue'
+import MainScreen from '@/components/MainScreen.vue'
+import {useGeneralPreferencesStore} from '@/stores/generalPreferences'
+
+const store = useGeneralPreferencesStore();
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/people">People</RouterLink>
-<!--        <SearchPrefetchedPersons />-->
-<!--        <SearchPersonsFromAPI />-->
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <SplashSelectSide v-if="!store.side"/>
+  <MainScreen v-if="store.side"/>
 </template>
 
 <style>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import SplashSelectSide from '@/components/SplashSelectSide.vue'
+
 </script>
 
 <template>
   <main>
-    <SplashSelectSide />
+    home
   </main>
 </template>
