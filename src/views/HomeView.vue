@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '@/components/TheWelcome.vue'
+import SplashSelectSide from '@/components/SplashSelectSide.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <SplashSelectSide />
   </main>
 </template>
