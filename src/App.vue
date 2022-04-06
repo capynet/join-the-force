@@ -12,5 +12,4 @@ const store = useGeneralPreferencesStore();
 </template>
 
 <style>
-@import '@/assets/base.css';
 </style>
