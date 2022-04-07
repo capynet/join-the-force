@@ -1,6 +1,7 @@
 import {defineStore} from 'pinia'
 import type People from "@/models/People";
 import type Person from "@/models/Person";
+import {hydrateMany, hydrateOne} from "@/lib/Helpers";
 
 const url = 'https://swapi.dev/api/';
 
@@ -12,6 +13,9 @@ export const useDataSourceStore = defineStore({
         currentPage: 1
     }),
     actions: {
+        /**
+         * Get people list.
+         */
         async getPeople(page: number): Promise<People> {
             this.people = await (await fetch(`${url}/people/?page=${page}`)).json()
 
@@ -37,9 +41,8 @@ export const useDataSourceStore = defineStore({
 
         /**
          * Get all details from a person.
-         * @param id
          */
-        async getPersonFile(id: string) {
+        async getPersonFile(id: string): Promise<Person> {
             // Check if this person data was previously stored to avoid calling the API.
             const found = this.personFiles.find(file => file.id === id)
 
@@ -49,15 +52,19 @@ export const useDataSourceStore = defineStore({
 
             const personFile = await (await fetch(`${url}/people/${id}`)).json()
 
-            console.log(personFile);
-            // Some hydration.
-            for (const prop in personFile) {
-                const chunks = personFile['url'].split('/');
-                personFile['id'] = chunks[chunks.length - 2];
-            }
+            // We need an ID for referring it in the future or just for cache purposes.
+            const urlChunks = personFile.url.split('/');
+            personFile.id = urlChunks[urlChunks.length - 2];
+
+            personFile.homeworld = await hydrateOne(personFile.homeworld);
+            personFile.films = await hydrateMany(personFile.films);
+            personFile.vehicles = await hydrateMany(personFile.vehicles);
+            personFile.starships = await hydrateMany(personFile.starships);
+            personFile.species = await hydrateMany(personFile.species);
 
             this.personFiles.push(personFile)
             return personFile;
         },
+
     }
 })
