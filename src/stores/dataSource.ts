@@ -9,19 +9,28 @@ export const useDataSourceStore = defineStore({
     state: () => ({
         people: {} as People,
         personFiles: [] as Person[],
+        currentPage: 1
     }),
     actions: {
-        async getPeople(): Promise<People> {
-            // Prevent calling the API all the time caching the results.
-            if (Object.keys(this.people).length === 0) {
-                this.people = await (await fetch(`${url}/people`)).json()
-            }
+        async getPeople(page: number): Promise<People> {
+            this.people = await (await fetch(`${url}/people/?page=${page}`)).json()
 
             // Some hydration.
             for (const item of this.people.results) {
                 const chunks = item.url.split('/');
                 item.id = chunks[chunks.length - 2];
             }
+
+            // And some manipulation
+            if (this.people.next !== null) {
+                this.people.nextId = parseInt(this.people.next[this.people.next.length - 1], 10);
+            }
+
+            if (this.people.previous !== null) {
+                this.people.prevId = parseInt(this.people.previous[this.people.previous.length - 1], 10);
+            }
+
+            this.currentPage = page;
 
             return this.people
         },
@@ -31,7 +40,7 @@ export const useDataSourceStore = defineStore({
          * @param id
          */
         async getPersonFile(id: string) {
-            // Check if this person data was previously stored to avoid calling the API
+            // Check if this person data was previously stored to avoid calling the API.
             const found = this.personFiles.find(file => file.id === id)
 
             if (found) {

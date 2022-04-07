@@ -3,14 +3,17 @@ import {useDataSourceStore} from '@/stores/dataSource'
 import PeopleTable from '@/components/PeopleTable.vue'
 
 const store = useDataSourceStore();
-store.getPeople()
+store.getPeople(store.currentPage)
 </script>
 
 <template>
-  <div class="about">
-    <h1>People</h1>
-    <h2>There are {{ store.people.count }} registered.</h2>
-    <PeopleTable :list="store.people.results"/>
-  </div>
+  <h1>People</h1>
+  <h2>Showing page {{ store.currentPage }}</h2>
+  <h3>Total entries: {{ store.people.count }}</h3>
+
+  <PeopleTable :list="store.people.results"/>
+
+  <button v-if="store.people.prevId" @click="store.getPeople(store.people.prevId)">Prev</button>
+  <button v-if="store.people.nextId" @click="store.getPeople(store.people.nextId)">Next</button>
 </template>
 
