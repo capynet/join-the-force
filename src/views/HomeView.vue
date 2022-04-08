@@ -1,9 +1,6 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <main>
-    home
+    <p>Welcome to the demo APP.</p>
+    <p>Please have a look around and check all toy need :)</p>
   </main>
 </template>

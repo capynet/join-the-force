@@ -3,7 +3,7 @@ import {RouterLink} from 'vue-router'
 import type Person from "@/models/Person";
 
 defineProps<{
-  list?: Person[]
+  list: Person[]
 }>()
 
 </script>
@@ -18,7 +18,7 @@ defineProps<{
     </thead>
     <tbody>
 
-    <tr v-for="item in list">
+    <tr v-for="item in list" :key="item.id">
       <td>{{ item.name }}</td>
       <td>
         <RouterLink :to="{ name: 'peopleFile', params: { id: item.id }}">View in detail</RouterLink>
