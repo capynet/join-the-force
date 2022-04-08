@@ -7,7 +7,7 @@ const store = useGeneralPreferencesStore();
 <template>
   <div class="intro">
     <h1>Welcome warrior</h1>
-    <h2>We need to know which side is stronger on you. please tell us</h2>
+    <h2>Make your choice</h2>
   </div>
 
   <div class="actions">
