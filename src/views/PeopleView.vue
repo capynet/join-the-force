@@ -13,7 +13,16 @@ store.getPeople(store.currentPage)
 
   <PeopleTable :list="store.people.results"/>
 
-  <button v-if="store.people.prevId" @click="store.getPeople(store.people.prevId)">Prev</button>
-  <button v-if="store.people.nextId" @click="store.getPeople(store.people.nextId)">Next</button>
+  <div class="actions">
+    <button v-if="store.people.prevId" @click="store.getPeople(store.people.prevId)">Prev</button>
+    <button v-if="store.people.nextId" @click="store.getPeople(store.people.nextId)">Next</button>
+  </div>
+
 </template>
+
+<style scoped>
+.actions {
+  display: flex;
+}
+</style>
 

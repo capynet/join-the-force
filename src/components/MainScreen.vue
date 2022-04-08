@@ -8,37 +8,23 @@ const store = useGeneralPreferencesStore();
 <template>
 
   <main :class="{'light-side' : store.side === 'light', 'dark-side' : store.side === 'dark', }">
-    <header>
-      <div class="wrapper">
-        <nav>
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/people">People</RouterLink>
-          <!--        <SearchPrefetchedPersons />-->
-          <!--        <SearchPersonsFromAPI />-->
-        </nav>
-      </div>
-    </header>
+    <div class="inner-content">
+      <header>
+        <div class="wrapper">
+          <nav>
+            <RouterLink to="/">Home</RouterLink>
+            <RouterLink to="/people">People</RouterLink>
+            <!--        <SearchPrefetchedPersons />-->
+            <!--        <SearchPersonsFromAPI />-->
+          </nav>
+        </div>
+      </header>
 
-    <RouterView/>
+      <RouterView/>
+    </div>
   </main>
 </template>
 
 <style scoped>
-main.light-side {
-  background: #fff;
-  color: #000;
-}
 
-main.light-side a {
-  color: #000;
-}
-
-main.dark-side {
-  background: #000;
-  color: #fff;
-}
-
-main.dark-side a {
-  color: #fff;
-}
 </style>
