@@ -1,0 +1,32 @@
+:root {
+    --light-side-color-white: white;
+    --light-side-color-blue: blue;
+    --light-side-color-444400: #444400;
+    --light-side-color-d70000: #d70000;
+    --light-side-color-ebebeb: #ebebeb;
+    --light-side-color-5959ff: #5959ff;
+}
+
+main.light-side {
+    color: var(--light-side-color-444400);
+}
+
+main.light-side a {
+    color: var(--light-side-color-444400);
+}
+
+main.light-side a:hover {
+    color: var(--light-side-color-d70000);
+}
+
+main.light-side header nav a {
+    border-color: var(--light-side-color-blue);
+    background: var(--light-side-color-ebebeb);
+}
+
+main.light-side header nav a:hover,
+main.light-side header nav a.router-link-active {
+    border-color: var(--light-side-color-5959ff);
+    background: var(--light-side-color-5959ff);
+    color: var(--light-side-color-white);
+}
