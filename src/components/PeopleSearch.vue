@@ -5,14 +5,13 @@ const store = useDataSourceStore();
 let timer: number;
 const waitTime = 500;
 
-function search(e: KeyboardEvent) {
+function search(e: Event): void {
   const text: string = (e.target as HTMLInputElement).value;
   clearTimeout(timer);
 
   timer = setTimeout(() => {
     doSearch(text);
   }, waitTime);
-
 }
 
 function doSearch(text: string) {

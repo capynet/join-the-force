@@ -3,5 +3,5 @@ import PersonFile from "@/components/PersonFile.vue";
 </script>
 
 <template>
-  <PersonFile :personId="$route.params.id"/>
+  <PersonFile :personId="$route.params.id.toString()"/>
 </template>
