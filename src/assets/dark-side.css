@@ -1,34 +1,46 @@
+:root {
+    --dark-side-main-color: yellow;
+    --dark-side-secondary-color: #969600;
+}
+
 main.dark-side {
-    color: yellow;
+    color: var(--dark-side-main-color);
     background: #000;
 }
 
 main.dark-side a {
-    color: yellow;
+    color: var(--dark-side-main-color);
 }
 
 main.dark-side a:hover {
-    color: #969600;
+    color: var(--dark-side-secondary-color);
 }
 
 main.dark-side button {
-    color: yellow;
-    border-color: yellow;
+    color: var(--dark-side-main-color);
+    border-color: var(--dark-side-main-color);
 }
 
 main.dark-side button:hover {
-    color: #969600;
-    border-color: #969600;
+    color: var(--dark-side-secondary-color);
+    border-color: var(--dark-side-secondary-color);
 }
 
 main.dark-side header nav a {
-    border-color: yellow;
+    border-color: var(--dark-side-main-color);
     background: black;
 }
 
 main.dark-side header nav a:hover,
 main.dark-side header nav a.router-link-active {
-    border-color: #969600;
+    border-color: var(--dark-side-secondary-color);
     background: #545400;
-    color: #969600;
+    color: var(--dark-side-secondary-color);
+}
+
+/* Search form */
+main.dark-side #people-filter-form input {
+    background-color: var(--dark-side-secondary-color);
+    border-color: var(--dark-side-main-color);
+    color: white;
 }

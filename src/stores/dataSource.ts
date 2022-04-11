@@ -3,21 +3,31 @@ import type People from "@/models/People";
 import type Person from "@/models/Person";
 import {hydrateMany, hydrateOne} from "@/lib/Helpers";
 
-const url = 'https://swapi.dev/api/';
+const url = 'https://swapi.dev/api';
 
 export const useDataSourceStore = defineStore({
     id: 'dataSource',
     state: () => ({
         people: {} as People,
         personFiles: [] as Person[],
-        currentPage: 1
+        currentPage: '1',
+        currSearchString: ''
     }),
     actions: {
         /**
          * Get people list.
          */
-        async getPeople(page: number): Promise<People> {
-            this.people = await (await fetch(`${url}/people/?page=${page}`)).json()
+        async getPeople(page: string, searchString: string): Promise<People> {
+            const personUrl = new URL(`${url}/people`);
+
+            page = page.length ? page : this.currentPage;
+            this.currentPage = page;
+            personUrl.searchParams.append('page', page);
+
+            searchString.length && personUrl.searchParams.append('search', searchString);
+            this.currSearchString = searchString;
+
+            this.people = await (await fetch(personUrl.toString())).json()
 
             // Some hydration.
             for (const item of this.people.results) {
@@ -27,14 +37,14 @@ export const useDataSourceStore = defineStore({
 
             // And some manipulation
             if (this.people.next !== null) {
-                this.people.nextId = parseInt(this.people.next[this.people.next.length - 1], 10);
+                const nextUrl = new URL(this.people.next);
+                this.people.nextId = nextUrl.searchParams.get('page') as string;
             }
 
             if (this.people.previous !== null) {
-                this.people.prevId = parseInt(this.people.previous[this.people.previous.length - 1], 10);
+                const prevUrl = new URL(this.people.previous);
+                this.people.prevId = prevUrl.searchParams.get('page') as string;
             }
-
-            this.currentPage = page;
 
             return this.people
         },

@@ -5,6 +5,6 @@ export default interface People {
     results: Person[]
     next: string
     previous: string
-    nextId: number
-    prevId: number
+    nextId: string
+    prevId: string
 }

@@ -14,8 +14,6 @@ const store = useGeneralPreferencesStore();
           <nav>
             <RouterLink to="/">Home</RouterLink>
             <RouterLink to="/people">People</RouterLink>
-            <!--        <SearchPrefetchedPersons />-->
-            <!--        <SearchPersonsFromAPI />-->
           </nav>
         </div>
       </header>
