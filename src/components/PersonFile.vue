@@ -2,6 +2,11 @@
 import {useDataSourceStore} from '@/stores/dataSource'
 import {ref} from "vue";
 import type Person from "@/models/Person";
+import type Homeworld from "@/models/Homeworld";
+import type Films from "@/models/Films";
+import type Species from "@/models/Species";
+import type Starships from "@/models/Starships";
+import type Vehicles from "@/models/Vehicles";
 
 const props = defineProps<{
   personId: string
@@ -23,15 +28,21 @@ let starships = ref<string[] | string>(loading)
 
 getPersonFileCall.then(data => {
   const person: Person = data;
+  const homeworld = person.homeworld as Homeworld;
+  const filmsObj = person.films as Films[];
+  const speciesObj = person.species as Species[];
+  const vehiclesObj = person.vehicles as Vehicles[];
+  const starchipsObj = person.starships as Starships[];
+
   name.value = person.name;
   birthYear.value = person.birth_year;
   gender.value = person.gender;
-  homeworldName.value = person.homeworld.name;
-  homeworldTerrain.value = person.homeworld.terrain;
-  films.value = person.films.length ? person.films.map(film => film.title) : '-';
-  species.value = person.species.length ? person.species.map(specie => specie.name) : '-';
-  vehicles.value = person.vehicles.length ? person.vehicles.map(vehicle => vehicle.name) : '-';
-  starships.value = person.starships.length ? person.starships.map(starship => starship.name) : '-';
+  homeworldName.value = homeworld.name;
+  homeworldTerrain.value = homeworld.terrain;
+  films.value = filmsObj.length ? filmsObj.map(film => film.title) : '-';
+  species.value = speciesObj.length ? speciesObj.map(specie => specie.name) : '-';
+  vehicles.value = vehiclesObj.length ? vehiclesObj.map(vehicle => vehicle.name) : '-';
+  starships.value = starchipsObj.length ? starchipsObj.map(starship => starship.name) : '-';
 
   // For you my interviewer ;)
   console.log(person);
