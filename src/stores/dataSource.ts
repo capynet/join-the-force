@@ -2,8 +2,12 @@ import {defineStore} from 'pinia'
 import type People from "@/models/People";
 import type Person from "@/models/Person";
 import {hydrateMany, hydrateOne} from "@/lib/Helpers";
-
-const url = 'https://swapi.dev/api';
+import Swapi from "@/lib/Swapi";
+import type Homeworld from "@/models/Homeworld";
+import type Films from "@/models/Films";
+import type Vehicles from "@/models/Vehicles";
+import type Starships from "@/models/Starships";
+import type Species from "@/models/Species";
 
 export const useDataSourceStore = defineStore({
     id: 'dataSource',
@@ -18,16 +22,17 @@ export const useDataSourceStore = defineStore({
          * Get people list.
          */
         async getPeople(page: string, searchString: string): Promise<People> {
-            const personUrl = new URL(`${url}/people`);
+            const api = new Swapi();
+            const params = [];
 
             page = page.length ? page : this.currentPage;
             this.currentPage = page;
-            personUrl.searchParams.append('page', page);
+            params.push({key: 'page', value: page});
 
-            searchString.length && personUrl.searchParams.append('search', searchString);
+            searchString.length && params.push({key: 'search', value: searchString});
             this.currSearchString = searchString;
 
-            this.people = await (await fetch(personUrl.toString())).json()
+            this.people = await api.get<People>(Swapi.endpoints.people, params);
 
             // Some hydration.
             for (const item of this.people.results) {
@@ -60,17 +65,18 @@ export const useDataSourceStore = defineStore({
                 return Promise.resolve(found);
             }
 
-            const personFile = await (await fetch(`${url}/people/${id}`)).json()
+            const api = new Swapi();
+            const personFile = await api.get<Person>(`${Swapi.endpoints.people}/${id}`);
 
             // We need an ID for referring it in the future or just for cache purposes.
             const urlChunks = personFile.url.split('/');
             personFile.id = urlChunks[urlChunks.length - 2];
 
-            personFile.homeworld = await hydrateOne(personFile.homeworld);
-            personFile.films = await hydrateMany(personFile.films);
-            personFile.vehicles = await hydrateMany(personFile.vehicles);
-            personFile.starships = await hydrateMany(personFile.starships);
-            personFile.species = await hydrateMany(personFile.species);
+            personFile.homeworld = await hydrateOne<Homeworld>(personFile.homeworld as string);
+            personFile.films = await hydrateMany<Films>(personFile.films as []);
+            personFile.vehicles = await hydrateMany<Vehicles>(personFile.vehicles as []);
+            personFile.starships = await hydrateMany<Starships>(personFile.starships as []);
+            personFile.species = await hydrateMany<Species>(personFile.species as []);
 
             this.personFiles.push(personFile)
             return personFile;
