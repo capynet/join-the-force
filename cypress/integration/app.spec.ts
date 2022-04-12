@@ -1,7 +1,7 @@
 describe('Side selection', () => {
     it('Splash screen works', () => {
         cy.visit('/')
-        cy.get('#app > :nth-child(3)').contains('Light side');
-        cy.get('#app > :nth-child(4)').contains('Dark side');
+        cy.get('#app .btn-light').contains('Light side');
+        cy.get('#app .btn-dark').contains('Dark side');
     })
 })
