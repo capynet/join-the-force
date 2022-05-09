@@ -1,8 +1,8 @@
 import {defineStore} from 'pinia'
 import type People from "@/models/People";
 import type Person from "@/models/Person";
-import {hydrateMany, hydrateOne} from "@/lib/Helpers";
-import Swapi from "@/lib/Swapi";
+import {hydrateMany, hydrateOne} from "@/composables/Helpers";
+import Swapi from "@/composables/Swapi";
 import type Homeworld from "@/models/Homeworld";
 import type Films from "@/models/Films";
 import type Vehicles from "@/models/Vehicles";
